@@ -1,0 +1,45 @@
+version: "3.8"
+
+services:
+  # Apache and PHP service
+  web:
+    container_name: php-apache-container
+    ports:
+      - "80:80"
+    build:
+      dockerfile: Dockerfile
+    volumes:
+      - ./../:/var/www/html
+    networks:
+      - todo-network
+
+  # MariaDB service
+  mariadb:
+    image: mariadb:latest
+    restart: unless-stopped
+    container_name: mariadb-compose
+    environment:
+      MYSQL_ROOT_PASSWORD: mariadb
+      MYSQL_DATABASE: mariadb
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./seed:/docker-entrypoint-initdb.d:ro
+    networks:
+      - todo-network
+
+  # Adminer service
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    environment:
+      ADMINER_DEFAULT_SERVER: mariadb-compose
+    networks:
+      - todo-network
+
+  # Network service
+networks:
+  todo-network:
+    driver: bridge
