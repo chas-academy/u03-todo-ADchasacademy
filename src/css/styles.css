@@ -8,8 +8,9 @@
   vertical-align: baseline;
   text-decoration: none;
   list-style-type: none;
-  font-family: "Poppins", serif;
+  font-family: "Poppins", sans-serif;
   box-sizing: border-box;
+  background-color: transparent;
 }
 
 body {

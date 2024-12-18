@@ -155,9 +155,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <?php
                     foreach ($Task as $TaskDesc) {
                         if ($TaskDesc['ColumnID'] ===  1) {
-                            echo "<article>" . $TaskDesc['TaskName'] . ' ' . $TaskDesc['Description'] . "<form action='' method='POST' > <input type='hidden' value='" . $TaskDesc['TaskID'] . "' name='delete'><button type='submit'>Remove</button> </form><form action='' method='POST' ><input type='hidden' value='" . $TaskDesc['TaskID'] . "' name='TaskID'> <input placeholder='Edit Title'type='text' name='EditTask'> <input name='testing' placeholder='Enter Description'> <button type='submit'>Edit</button></form> 
-                            <form action='' method='POST' > <input type='hidden' value='0' name='LevelUPDown'><input type='hidden' value='" . $TaskDesc['TaskID'] . "' name='TaskID'><input type='hidden' value='" . $TaskDesc['ColumnID'] . "' name='CurrentValue'><button type='submit'>Up</button> </form>
-                            <form action='' method='POST' > <input type='hidden' value='1' name='LevelUPDown'><input type='hidden' value='" . $TaskDesc['TaskID'] . "' name='TaskID'><input type='hidden' value='" . $TaskDesc['ColumnID'] . "' name='CurrentValue'><button type='submit'>down</button> </form> </article>";
+                    ?>
+                            <article>
+                                <h3 class="task-title"><?php echo $TaskDesc['TaskName'] ?></h3>
+                                <p class="txt-desc"><?php echo $TaskDesc['Description'] ?></p>
+                            </article>
+                    <?php
+
+
+
+                            //     echo "<article>" . $TaskDesc['TaskName'] . ' ' . $TaskDesc['Description'] . "<form action='' method='POST' > <input type='hidden' value='" . $TaskDesc['TaskID'] . "' name='delete'><button type='submit'>Remove</button> </form><form action='' method='POST' ><input type='hidden' value='" . $TaskDesc['TaskID'] . "' name='TaskID'> <input placeholder='Edit Title'type='text' name='EditTask'> <input name='testing' placeholder='Enter Description'> <button type='submit'>Edit</button></form> 
+                            //     <form action='' method='POST' > <input type='hidden' value='0' name='LevelUPDown'><input type='hidden' value='" . $TaskDesc['TaskID'] . "' name='TaskID'><input type='hidden' value='" . $TaskDesc['ColumnID'] . "' name='CurrentValue'><button type='submit'>Up</button> </form>
+                            //     <form action='' method='POST' > <input type='hidden' value='1' name='LevelUPDown'><input type='hidden' value='" . $TaskDesc['TaskID'] . "' name='TaskID'><input type='hidden' value='" . $TaskDesc['ColumnID'] . "' name='CurrentValue'><button type='submit'>down</button> </form> </article>";
                         }
                     }
                     ?>
