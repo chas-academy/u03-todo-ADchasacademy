@@ -78,6 +78,13 @@ body {
   display: flex;
   flex-direction: column;
 }
+.board-container .column-container .task-wrapper article .task-container {
+  display: flex;
+  flex-direction: row-reverse;
+}
+.board-container .column-container .task-wrapper article .task-info {
+  padding-left: 0.5rem;
+}
 .board-container .column-container .task-wrapper article .task-title {
   font-size: 1rem;
   font-style: normal;
@@ -86,6 +93,7 @@ body {
   color: rgba(0, 0, 0, 0.85);
   font-weight: 450;
   font-size: 0.8rem;
+  padding-bottom: 0.5rem;
 }
 .board-container .column-container .task-wrapper article .task-title .testing {
   display: none;
@@ -113,22 +121,21 @@ body {
     height: 24px;
     width: 24px;
     border-radius: 50%;
-    color: #FF0000;
-    font-size: 1rem;
+    color: rgba(255, 0, 0, 0.5294117647);
     border: solid 1.5px transparent;
     display: flex;
     justify-content: center;
     text-align: center;
     align-items: center;
     transition: all 0.25s ease-out;
+    padding-bottom: 0.5rem;
   }
   .board-container .column-container .icon-styling .remove:hover {
     height: 24px;
     width: 24px;
     border-radius: 50%;
-    border: solid 1.5px #FF0000;
+    font-weight: 500;
     color: #F5234B;
-    background: rgba(255, 0, 0, 0.1333333333);
   }
   .board-container .testing {
     display: flex;
@@ -155,6 +162,9 @@ body {
   .board-container .testing .edit svg {
     height: 16px;
     width: 16px;
+  }
+  .board-container .testing .edit path {
+    transition: all 0.25s ease-out;
   }
   .board-container .testing .edit:hover svg path {
     fill: #000000;
@@ -189,9 +199,6 @@ body {
     color: #1EC337;
     background: rgba(30, 195, 55, 0.1333333333);
   }
-  .board-container .testing .move-up-approved:hover .test {
-    display: unset;
-  }
   .board-container .testing .move-up-done:hover, .board-container .testing .move-down-done:hover {
     height: 24px;
     width: 24px;
@@ -223,8 +230,5 @@ body {
     border: solid 1.5px #F5234B;
     color: #F5234B;
     background: rgba(245, 35, 74, 0.1333333333);
-  }
-  .test {
-    display: none;
   }
 }/*# sourceMappingURL=styles.css.map */

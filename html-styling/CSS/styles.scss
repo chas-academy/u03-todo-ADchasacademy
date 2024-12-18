@@ -64,11 +64,19 @@ body{
         display: flex;
         flex-direction: column;
 
+        .task-container{
+            display:flex;
+            flex-direction: row-reverse;
+        }
+.task-info{
+    padding-left: 0.5rem;
+}
         .task-title{
             @include s-title;
             color: $txt-color;
             font-weight: 450;
             font-size: 0.8rem;
+            padding-bottom: 0.5rem;
 
             .testing{
                 display: none;
@@ -99,45 +107,26 @@ body{
 
         .icon-styling{
             display: flex;
-            justify-content: flex-end;
-            
-            
-            // .edit{
-            //     svg{
-            //     height: 16px;
-            //     width: 16px;
-            //     }
-            //     @include move-up-down;
-            //     display: flex;
-            //     justify-content: center;
-            //     text-align: center;
-            //     align-items: center;
-                
-            //     &:hover svg path{
-            //     fill:#000000;
-            //     }
-            //     }
-            
-            
+            justify-content: flex-end;  
+               
             .remove{
                 @include move-up-down;
-                color: #FF0000;
-                font-size: 1rem;
+                color: #ff000087;
                 border: solid 1.5px transparent;
                 display: flex;
                 justify-content: center;
                 text-align: center;
                 align-items: center;
                 transition: all 0.25s ease-out;
+                padding-bottom: 0.5rem;  
                
                 
                 &:hover{
                 @include move-up-down;
-                border: solid 1.5px #FF0000;
+                // border: solid 1.5px #FF0000;
+                font-weight: 500;
                 color: #F5234B;
-                // opacity: unset;
-                // font-weight: 500;
-                background: #ff000022;
+                // background: #ff000022;
               
                 }
             }
@@ -167,17 +156,17 @@ body{
             justify-content: center;
             text-align: center;
             align-items: center;
+            path{
+            transition: all 0.25s ease-out;}
             
             &:hover svg path{
             fill:#000000;
             }
             }
-        
-    
+
         .move-up-done , .move-down-to-do{
                 @include move-up-down;
                 border: solid 1.5px transparent;
-                // border: solid 0.5px #F5C200;
                 color: #000000;
                 // opacity: 65%;
                 transition: all 0.25s ease-out;
@@ -194,7 +183,6 @@ body{
            
             .move-up-approved, .move-down-in-progress{
                 @include move-up-down;
-                // border: solid 0.5px #0070F5;
                 border: solid 1.5px transparent;
                 color: #000000;
                 // opacity: 65%;
@@ -207,9 +195,6 @@ body{
                 border: solid 1.5px #1EC337;
                 color: #1EC337;
                 background: #1ec33722;
-                .test{
-                    display: unset;
-                }
 
                 }
             }
@@ -224,7 +209,6 @@ body{
             }
             .move-down-done{
                 @include move-up-down;
-                // border: solid 0.5px #1EC337;
                 border: solid 1.5px transparent;
                 color: #000000;
                 // opacity: 65%;
@@ -233,7 +217,6 @@ body{
             
             .move-up-in-progress{
                 @include move-up-down;
-                // border: solid 0.5px #F5234B;
                 border: solid 1.5px transparent;
                 color: #000000;
                 // opacity: 65%;
@@ -251,8 +234,6 @@ body{
         }
     }
     
-   .test{
-    display: none;
-   }
+   
 }
 
