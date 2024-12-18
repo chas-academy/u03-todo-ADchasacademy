@@ -19,11 +19,11 @@ $Task = $pdo->query("SELECT * FROM Task")->fetchAll();
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['TaskName']) && isset($_POST['ColumnName']) && isset($_POST['Description']) && isset($_POST['PriorityName']) && isset($_POST['UserName'])) {
 
     $ok = true;
-    $TaskName = trim(filter_var($_POST['TaskName'] ?? '', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
-    $ColumnName = trim(filter_var($_POST['ColumnName'] ?? '', FILTER_SANITIZE_NUMBER_INT));
-    $Description = trim(filter_var($_POST['Description'] ?? '', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
-    $PriorityName = trim(filter_var($_POST['PriorityName'] ?? '', FILTER_SANITIZE_NUMBER_INT));
-    $UserName = trim(filter_var($_POST['UserName'] ?? '', FILTER_SANITIZE_NUMBER_INT));
+    $TaskName = trim(filter_var($_POST['TaskName'], FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+    $ColumnName = trim(filter_var($_POST['ColumnName'], FILTER_SANITIZE_NUMBER_INT));
+    $Description = trim(filter_var($_POST['Description'], FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+    $PriorityName = trim(filter_var($_POST['PriorityName'], FILTER_SANITIZE_NUMBER_INT));
+    $UserName = trim(filter_var($_POST['UserName'], FILTER_SANITIZE_NUMBER_INT));
 
     if ($TaskName === '' || $ColumnName === '' || $UserName === '' || $Description === '' || $PriorityName === '') {
         $ok = false;
@@ -38,15 +38,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['TaskName']) && isset(
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
 
-    $ToBeDeleted = trim(filter_var($_POST['delete'] ?? '', FILTER_SANITIZE_NUMBER_INT));
+    $ToBeDeleted = trim(filter_var($_POST['delete'], FILTER_SANITIZE_NUMBER_INT));
     $sql = "DELETE FROM Task WHERE TaskID = (?)";
     $pdo->prepare($sql)->execute([$ToBeDeleted]);
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['EditTask']) && isset($_POST['testing'])) {
     $ok = true;
-    $EditTaskName = trim(filter_var($_POST['EditTask'] ?? '', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
-    $Description = trim(filter_var($_POST['testing'] ?? '', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+    $EditTaskName = trim(filter_var($_POST['EditTask'], FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+    $Description = trim(filter_var($_POST['testing'], FILTER_SANITIZE_FULL_SPECIAL_CHARS));
     $TaskID = $_POST['TaskID'];
 
     // kika på empty funktionen
@@ -104,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./css/styles.css" />
-    <title>Kanban</title>
+    <title>Google Innovation Kanban Board</title>
 </head>
 
 
@@ -116,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             action=""
             method="POST">
             <input type="text" placeholder="Enter text" name="TaskName">
-            <input type="textarea" placeholder="Enter a description" name="Description">
+            <textarea placeholder="Enter a description" name="Description"></textarea>
 
             <select name="ColumnName">
                 <?php
@@ -143,83 +143,221 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="submit">
         </form>
 
-        <section class="container">
-            <h1>KANBAN BOARD</h1>
+        <section>
+            <h1 id="main-title">
+                Innovation Pipeline: Driving Google's Next Big Leap
+            </h1>
         </section>
 
-        <div class="wrapper">
-            <section>
-                <h2 class="container">TO DO</h2>
-                <div class="container">
+        <div class="board-container">
+            <section class="column-container">
+                <h2 class="section-title">To do</h2>
+                <div class="section-line-r"></div>
+                <div class="task-wrapper">
 
                     <?php
                     foreach ($Task as $TaskDesc) {
                         if ($TaskDesc['ColumnID'] ===  1) {
                     ?>
                             <article>
-                                <h3 class="task-title"><?php echo $TaskDesc['TaskName'] ?></h3>
-                                <p class="txt-desc"><?php echo $TaskDesc['Description'] ?></p>
+                                <div class="task-container">
+                                    <div class="icon-styling">
+                                        <form action='' method='POST'>
+                                            <input type='hidden' value=" <?php echo $TaskDesc['TaskID']; ?>" name='delete'>
+                                            <button type="submit" class="remove">x</button>
+                                        </form>
+                                    </div>
+                                    <div class="task-info">
+                                        <h3 class="task-title"><?php echo $TaskDesc['TaskName'] ?></h3>
+                                        <p class="txt-desc"><?php echo $TaskDesc['Description'] ?></p>
+                                    </div>
+                                </div>
+                                <div class="testing">
+
+                                    <button type="button" disabled class="hidden"></button>
+                                    <form action='' method='POST' class="edit-wrap">
+                                        <input type='hidden' value="<?php echo $TaskDesc['TaskID']; ?> " name='TaskID'>
+                                        <input placeholder='Edit Title' type='text' name='EditTask' class="border">
+                                        <input name='testing' placeholder='Enter Description' class="border">
+                                        <button type="submit" class="edit">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                                <path
+                                                    fill="#00000080"
+                                                    d="M441 58.9L453.1 71c9.4 9.4 9.4 24.6 0 33.9L424 134.1 377.9 88 407 58.9c9.4-9.4 24.6-9.4 33.9 0zM209.8 256.2L344 121.9 390.1 168 255.8 302.2c-2.9 2.9-6.5 5-10.4 6.1l-58.5 16.7 16.7-58.5c1.1-3.9 3.2-7.5 6.1-10.4zM373.1 25L175.8 222.2c-8.7 8.7-15 19.4-18.3 31.1l-28.6 100c-2.4 8.4-.1 17.4 6.1 23.6s15.2 8.5 23.6 6.1l100-28.6c11.8-3.4 22.5-9.7 31.1-18.3L487 138.9c28.1-28.1 28.1-73.7 0-101.8L474.9 25C446.8-3.1 401.2-3.1 373.1 25zM88 64C39.4 64 0 103.4 0 152L0 424c0 48.6 39.4 88 88 88l272 0c48.6 0 88-39.4 88-88l0-112c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 112c0 22.1-17.9 40-40 40L88 464c-22.1 0-40-17.9-40-40l0-272c0-22.1 17.9-40 40-40l112 0c13.3 0 24-10.7 24-24s-10.7-24-24-24L88 64z" />
+                                            </svg>
+                                        </button>
+                                    </form>
+
+                                    <form action='' method='POST'>
+                                        <input type='hidden' value='0' name='LevelUPDown'>
+                                        <input type='hidden' value="<?php echo $TaskDesc['TaskID']; ?>" name='TaskID'>
+                                        <input type='hidden' value="<?php echo $TaskDesc['ColumnID']; ?>" name='CurrentValue'>
+                                        <button type="submit" class="move-up-in-progress">></button>
+                                    </form>
+                                </div>
+
                             </article>
                     <?php
-
-
-
-                            //     echo "<article>" . $TaskDesc['TaskName'] . ' ' . $TaskDesc['Description'] . "<form action='' method='POST' > <input type='hidden' value='" . $TaskDesc['TaskID'] . "' name='delete'><button type='submit'>Remove</button> </form><form action='' method='POST' ><input type='hidden' value='" . $TaskDesc['TaskID'] . "' name='TaskID'> <input placeholder='Edit Title'type='text' name='EditTask'> <input name='testing' placeholder='Enter Description'> <button type='submit'>Edit</button></form> 
-                            //     <form action='' method='POST' > <input type='hidden' value='0' name='LevelUPDown'><input type='hidden' value='" . $TaskDesc['TaskID'] . "' name='TaskID'><input type='hidden' value='" . $TaskDesc['ColumnID'] . "' name='CurrentValue'><button type='submit'>Up</button> </form>
-                            //     <form action='' method='POST' > <input type='hidden' value='1' name='LevelUPDown'><input type='hidden' value='" . $TaskDesc['TaskID'] . "' name='TaskID'><input type='hidden' value='" . $TaskDesc['ColumnID'] . "' name='CurrentValue'><button type='submit'>down</button> </form> </article>";
                         }
                     }
                     ?>
                 </div>
             </section>
-            <section>
-                <h2 class="container">IN PROGRESS</h2>
-                <div class="container">
+            <section class="column-container">
+                <h2 class="section-title">In Progress</h2>
+                <div class="section-line-y"></div>
+                <div class="task-wrapper">
+
                     <?php
                     foreach ($Task as $TaskDesc) {
                         if ($TaskDesc['ColumnID'] ===  2) {
-                            echo "<article>" . $TaskDesc['TaskName'] . ' ' . $TaskDesc['Description'] . "<form action='' method='POST' > <input type='hidden' value='" . $TaskDesc['TaskID'] . "' name='delete'><button type='submit'>Remove</button> </form><form action='' method='POST' ><input type='hidden' value='" . $TaskDesc['TaskID'] . "' name='TaskID'> <input placeholder='Edit Title'type='text' name='EditTask'> <input name='testing' placeholder='Enter Description'> <button type='submit'>Edit</button></form> 
-                            <form action='' method='POST' > <input type='hidden' value='0' name='LevelUPDown'><input type='hidden' value='" . $TaskDesc['TaskID'] . "' name='TaskID'><input type='hidden' value='" . $TaskDesc['ColumnID'] . "' name='CurrentValue'><button type='submit'>Up</button> </form>
-                            <form action='' method='POST' > <input type='hidden' value='1' name='LevelUPDown'><input type='hidden' value='" . $TaskDesc['TaskID'] . "' name='TaskID'><input type='hidden' value='" . $TaskDesc['ColumnID'] . "' name='CurrentValue'><button type='submit'>down</button> </form> </article>";
+                    ?>
+                            <article>
+                                <div class="task-container">
+                                    <div class="icon-styling">
+                                        <form action='' method='POST'>
+                                            <input type='hidden' value=" <?php echo $TaskDesc['TaskID']; ?>" name='delete'>
+                                            <button type="submit" class="remove">x</button>
+                                        </form>
+                                    </div>
+                                    <div class="task-info">
+                                        <h3 class="task-title"><?php echo $TaskDesc['TaskName'] ?></h3>
+                                        <p class="txt-desc"><?php echo $TaskDesc['Description'] ?></p>
+                                    </div>
+                                </div>
+                                <div class="testing">
+                                    <form action='' method='POST'>
+                                        <input type='hidden' value='1' name='LevelUPDown'>
+                                        <input type='hidden' value="<?php echo $TaskDesc['TaskID']; ?>" name='TaskID'>
+                                        <input type='hidden' value="<?php echo $TaskDesc['ColumnID']; ?>" name='CurrentValue'>
+                                        <button type="submit" class="move-down-to-do">
+                                            < </button>
+                                    </form>
+                                    <button type="submit" class="edit">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                            <path
+                                                fill="#00000080"
+                                                d="M441 58.9L453.1 71c9.4 9.4 9.4 24.6 0 33.9L424 134.1 377.9 88 407 58.9c9.4-9.4 24.6-9.4 33.9 0zM209.8 256.2L344 121.9 390.1 168 255.8 302.2c-2.9 2.9-6.5 5-10.4 6.1l-58.5 16.7 16.7-58.5c1.1-3.9 3.2-7.5 6.1-10.4zM373.1 25L175.8 222.2c-8.7 8.7-15 19.4-18.3 31.1l-28.6 100c-2.4 8.4-.1 17.4 6.1 23.6s15.2 8.5 23.6 6.1l100-28.6c11.8-3.4 22.5-9.7 31.1-18.3L487 138.9c28.1-28.1 28.1-73.7 0-101.8L474.9 25C446.8-3.1 401.2-3.1 373.1 25zM88 64C39.4 64 0 103.4 0 152L0 424c0 48.6 39.4 88 88 88l272 0c48.6 0 88-39.4 88-88l0-112c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 112c0 22.1-17.9 40-40 40L88 464c-22.1 0-40-17.9-40-40l0-272c0-22.1 17.9-40 40-40l112 0c13.3 0 24-10.7 24-24s-10.7-24-24-24L88 64z" />
+                                        </svg>
+                                    </button>
+                                    <form action='' method='POST'>
+                                        <input type='hidden' value='0' name='LevelUPDown'>
+                                        <input type='hidden' value="<?php echo $TaskDesc['TaskID']; ?>" name='TaskID'>
+                                        <input type='hidden' value="<?php echo $TaskDesc['ColumnID']; ?>" name='CurrentValue'>
+                                        <button type="submit" class="move-up-done">></button>
+                                    </form>
+                                </div>
+                            </article>
+                    <?php
+
                         }
                     }
                     ?>
-
                 </div>
             </section>
-            <section>
-                <h2 class="container">DONE</h2>
-                <div class="container">
+
+            <section class="column-container">
+                <h2 class="section-title">Done</h2>
+                <div class="section-line-b"></div>
+                <div class="task-wrapper">
+
                     <?php
                     foreach ($Task as $TaskDesc) {
                         if ($TaskDesc['ColumnID'] ===  3) {
-                            echo "<article>" . $TaskDesc['TaskName'] . ' ' . $TaskDesc['Description'] . "<form action='' method='POST' > <input type='hidden' value='" . $TaskDesc['TaskID'] . "' name='delete'><button type='submit'>Remove</button> </form><form action='' method='POST' ><input type='hidden' value='" . $TaskDesc['TaskID'] . "' name='TaskID'> <input placeholder='Edit Title'type='text' name='EditTask'> <input name='testing' placeholder='Enter Description'> <button type='submit'>Edit</button></form> 
-                            <form action='' method='POST' > <input type='hidden' value='0' name='LevelUPDown'><input type='hidden' value='" . $TaskDesc['TaskID'] . "' name='TaskID'><input type='hidden' value='" . $TaskDesc['ColumnID'] . "' name='CurrentValue'><button type='submit'>Up</button> </form>
-                            <form action='' method='POST' > <input type='hidden' value='1' name='LevelUPDown'><input type='hidden' value='" . $TaskDesc['TaskID'] . "' name='TaskID'><input type='hidden' value='" . $TaskDesc['ColumnID'] . "' name='CurrentValue'><button type='submit'>down</button> </form> </article>";
+                    ?>
+                            <article>
+                                <div class="task-container">
+                                    <div class="icon-styling">
+                                        <form action='' method='POST'>
+                                            <input type='hidden' value=" <?php echo $TaskDesc['TaskID']; ?>" name='delete'>
+                                            <button type="submit" class="remove">x</button>
+                                        </form>
+                                    </div>
+                                    <div class="task-info">
+                                        <h3 class="task-title"><?php echo $TaskDesc['TaskName'] ?></h3>
+                                        <p class="txt-desc"><?php echo $TaskDesc['Description'] ?></p>
+                                    </div>
+                                </div>
+                                <div class="testing">
+                                    <form action='' method='POST'>
+                                        <input type='hidden' value='1' name='LevelUPDown'>
+                                        <input type='hidden' value="<?php echo $TaskDesc['TaskID']; ?>" name='TaskID'>
+                                        <input type='hidden' value="<?php echo $TaskDesc['ColumnID']; ?>" name='CurrentValue'>
+                                        <button type="submit" class="move-down-in-progress">
+                                            < </button>
+                                    </form>
+                                    <button type="submit" class="edit">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                            <path
+                                                fill="#00000080"
+                                                d="M441 58.9L453.1 71c9.4 9.4 9.4 24.6 0 33.9L424 134.1 377.9 88 407 58.9c9.4-9.4 24.6-9.4 33.9 0zM209.8 256.2L344 121.9 390.1 168 255.8 302.2c-2.9 2.9-6.5 5-10.4 6.1l-58.5 16.7 16.7-58.5c1.1-3.9 3.2-7.5 6.1-10.4zM373.1 25L175.8 222.2c-8.7 8.7-15 19.4-18.3 31.1l-28.6 100c-2.4 8.4-.1 17.4 6.1 23.6s15.2 8.5 23.6 6.1l100-28.6c11.8-3.4 22.5-9.7 31.1-18.3L487 138.9c28.1-28.1 28.1-73.7 0-101.8L474.9 25C446.8-3.1 401.2-3.1 373.1 25zM88 64C39.4 64 0 103.4 0 152L0 424c0 48.6 39.4 88 88 88l272 0c48.6 0 88-39.4 88-88l0-112c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 112c0 22.1-17.9 40-40 40L88 464c-22.1 0-40-17.9-40-40l0-272c0-22.1 17.9-40 40-40l112 0c13.3 0 24-10.7 24-24s-10.7-24-24-24L88 64z" />
+                                        </svg>
+                                    </button>
+                                    <form action='' method='POST'>
+                                        <input type='hidden' value='0' name='LevelUPDown'>
+                                        <input type='hidden' value="<?php echo $TaskDesc['TaskID']; ?>" name='TaskID'>
+                                        <input type='hidden' value="<?php echo $TaskDesc['ColumnID']; ?>" name='CurrentValue'>
+                                        <button type="submit" class="move-up-approved">></button>
+                                    </form>
+                                </div>
+                            </article>
+                    <?php
                         }
                     }
                     ?>
-
                 </div>
             </section>
-            <section>
-                <h2 class="container">APPROVED</h2>
-                <div class="container">
+            <section class="column-container">
+                <h2 class="section-title">Approved</h2>
+                <div class="section-line-g"></div>
+                <div class="task-wrapper">
+
                     <?php
                     foreach ($Task as $TaskDesc) {
                         if ($TaskDesc['ColumnID'] ===  4) {
-                            echo "<article>" . $TaskDesc['TaskName'] . ' ' . $TaskDesc['Description'] . "<form action='' method='POST' > <input type='hidden' value='" . $TaskDesc['TaskID'] . "' name='delete'><button type='submit'>Remove</button> </form><form action='' method='POST' ><input type='hidden' value='" . $TaskDesc['TaskID'] . "' name='TaskID'> <input placeholder='Edit Title'type='text' name='EditTask'> <input name='testing' placeholder='Enter Description'> <button type='submit'>Edit</button></form> 
-                            <form action='' method='POST' > <input type='hidden' value='0' name='LevelUPDown'><input type='hidden' value='" . $TaskDesc['TaskID'] . "' name='TaskID'><input type='hidden' value='" . $TaskDesc['ColumnID'] . "' name='CurrentValue'><button type='submit'>Up</button> </form>
-                            <form action='' method='POST' > <input type='hidden' value='1' name='LevelUPDown'><input type='hidden' value='" . $TaskDesc['TaskID'] . "' name='TaskID'><input type='hidden' value='" . $TaskDesc['ColumnID'] . "' name='CurrentValue'><button type='submit'>down</button> </form> </article>";
+                    ?>
+                            <article>
+                                <div class="task-container">
+                                    <div class="icon-styling">
+                                        <form action='' method='POST'>
+                                            <input type='hidden' value=" <?php echo $TaskDesc['TaskID']; ?>" name='delete'>
+                                            <button type="submit" class="remove">x</button>
+                                        </form>
+                                    </div>
+                                    <div class="task-info">
+                                        <h3 class="task-title"><?php echo $TaskDesc['TaskName'] ?></h3>
+                                        <p class="txt-desc"><?php echo $TaskDesc['Description'] ?></p>
+                                    </div>
+                                </div>
+                                <div class="testing">
+                                    <form action='' method='POST'>
+                                        <input type='hidden' value='1' name='LevelUPDown'>
+                                        <input type='hidden' value="<?php echo $TaskDesc['TaskID']; ?>" name='TaskID'>
+                                        <input type='hidden' value="<?php echo $TaskDesc['ColumnID']; ?>" name='CurrentValue'>
+                                        <button type="submit" class="move-down-done">
+                                            < </button>
+                                    </form>
+                                    <button type="submit" class="edit">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                            <path
+                                                fill="#00000080"
+                                                d="M441 58.9L453.1 71c9.4 9.4 9.4 24.6 0 33.9L424 134.1 377.9 88 407 58.9c9.4-9.4 24.6-9.4 33.9 0zM209.8 256.2L344 121.9 390.1 168 255.8 302.2c-2.9 2.9-6.5 5-10.4 6.1l-58.5 16.7 16.7-58.5c1.1-3.9 3.2-7.5 6.1-10.4zM373.1 25L175.8 222.2c-8.7 8.7-15 19.4-18.3 31.1l-28.6 100c-2.4 8.4-.1 17.4 6.1 23.6s15.2 8.5 23.6 6.1l100-28.6c11.8-3.4 22.5-9.7 31.1-18.3L487 138.9c28.1-28.1 28.1-73.7 0-101.8L474.9 25C446.8-3.1 401.2-3.1 373.1 25zM88 64C39.4 64 0 103.4 0 152L0 424c0 48.6 39.4 88 88 88l272 0c48.6 0 88-39.4 88-88l0-112c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 112c0 22.1-17.9 40-40 40L88 464c-22.1 0-40-17.9-40-40l0-272c0-22.1 17.9-40 40-40l112 0c13.3 0 24-10.7 24-24s-10.7-24-24-24L88 64z" />
+                                        </svg>
+                                    </button>
+                                    <button type="button" disabled class="hidden"></button>
+                                </div>
+                            </article>
+                    <?php
                         }
                     }
                     ?>
 
                 </div>
             </section>
-        </div>
+
         </div>
     </main>
+    <footer></footer>
 </body>
 
 </html>
