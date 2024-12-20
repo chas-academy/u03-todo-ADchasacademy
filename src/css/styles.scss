@@ -6,6 +6,8 @@
 body{
     background-color: $bg-color;
 }
+     
+
 
 
 #main-title{
@@ -63,6 +65,7 @@ body{
         gap: 0.5rem;
         display: flex;
         flex-direction: column;
+        
 
         .task-container{
             display:flex;
@@ -81,7 +84,6 @@ body{
 
             .testing{
                 display: none;
-                
             }
         }
 
@@ -91,11 +93,86 @@ body{
 
     }
 }
+
+.edit{
+    details[open] summary::before {
+        content: "";
+        width: 100vw;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        cursor: auto;
+        z-index: 5;  
+        
+        .edit-task{
+            z-index: 10;
+        }
+      }
+        .remove{
+                @include move-up-down;
+                color: #ff000087;
+                border: solid 1.5px transparent;
+                display: flex;
+                justify-content: center;
+                text-align: center;
+                align-items: center;
+                transition: all 0.25s ease-out;
+                padding-bottom: 0.5rem;  
+               
+                
+                &:hover{
+                @include move-up-down;
+                // border: solid 1.5px #FF0000;
+                font-weight: 500;
+                color: #F5234B;
+                // background: #ff000022;
+              
+                }
+            }
+    }
+  
 }
+
+  
 }
 
 
 
+
+    
+  
+
+
+// .edit-input{
+//     display: none;
+// }
+
+// .toggle-button{
+//     display: none;
+// }
+
+
+// .edit-form:has(.toggle-button:checked) .edit-input {
+//     display: block;
+   
+// }
+
+// .button{
+//     border: 1px solid black;
+// }
+
+.exit{
+    padding-left: 0.1rem;
+     color: #ff000087;
+     transition: all 0.25s ease-out;
+     &:hover{
+     font-weight: 500;
+     color: #F5234B;
+     
+   
+     }
+ }
 
 @media (min-width: 760px ) {
 
@@ -140,9 +217,11 @@ body{
         flex-direction: row;
         gap: 0.2rem;
         justify-content: space-between;
+        align-items: center;
 .edit-wrap{
     padding-left:0.5rem;
-    font-size: 0.8125rem;  
+    font-size: 0.8125rem; 
+    
 }
 
 
@@ -158,13 +237,19 @@ body{
             @include move-up-down;
             opacity: 0%;
             pointer-events: none;
-            display: none;
+            
         }
 
         .edit{
+            label{
+                display:flex;
+                justify-content:center;
+                align-items: center;
+            }
             svg{
             height: 16px;
             width: 16px;
+            align-items: center;
             }
             @include move-up-down;
             display: flex;

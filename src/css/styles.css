@@ -106,6 +106,49 @@ body {
   line-height: 1rem;
   color: rgba(0, 0, 0, 0.5);
 }
+.board-container .column-container .edit details[open] summary::before {
+  content: "";
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  cursor: auto;
+  z-index: 5;
+}
+.board-container .column-container .edit details[open] summary::before .edit-task {
+  z-index: 10;
+}
+.board-container .column-container .edit .remove {
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
+  color: rgba(255, 0, 0, 0.5294117647);
+  border: solid 1.5px transparent;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  transition: all 0.25s ease-out;
+  padding-bottom: 0.5rem;
+}
+.board-container .column-container .edit .remove:hover {
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
+  font-weight: 500;
+  color: #F5234B;
+}
+
+.exit {
+  padding-left: 0.1rem;
+  color: rgba(255, 0, 0, 0.5294117647);
+  transition: all 0.25s ease-out;
+}
+.exit:hover {
+  font-weight: 500;
+  color: #F5234B;
+}
 
 @media (min-width: 760px) {
   .board-container {
@@ -143,6 +186,7 @@ body {
     flex-direction: row;
     gap: 0.2rem;
     justify-content: space-between;
+    align-items: center;
   }
   .board-container .testing .edit-wrap {
     padding-left: 0.5rem;
@@ -160,7 +204,6 @@ body {
     border-radius: 50%;
     opacity: 0%;
     pointer-events: none;
-    display: none;
   }
   .board-container .testing .edit {
     height: 24px;
@@ -171,9 +214,15 @@ body {
     text-align: center;
     align-items: center;
   }
+  .board-container .testing .edit label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   .board-container .testing .edit svg {
     height: 16px;
     width: 16px;
+    align-items: center;
   }
   .board-container .testing .edit path {
     transition: all 0.25s ease-out;
