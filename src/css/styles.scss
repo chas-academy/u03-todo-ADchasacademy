@@ -94,21 +94,42 @@ body{
     }
 }
 
-.edit{
-    details[open] summary::before {
-        content: "";
-        width: 100vw;
-        height: 100vh;
-        position: fixed;
-        top: 0;
-        left: 0;
-        cursor: auto;
-        z-index: 5;  
+
+
+
+
+details[open] summary::before {
+    content: "";
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    cursor: auto;
+
+
+}
+
+.edit-task {
+position: relative;
+z-index: 2; 
+} 
+
+
+//     details[open] summary::before {
+//         content: "";
+//         width: 100vw;
+//         height: 100vh;
+//         position: fixed;
+//         top: 0;
+//         left: 0;
+//         cursor: auto;
+//         z-index: 5;  
         
-        .edit-task{
-            z-index: 10;
-        }
-      }
+//         .edit-task{
+//             z-index: 5;
+//         }
+//       }
         .remove{
                 @include move-up-down;
                 color: #ff000087;
@@ -135,7 +156,8 @@ body{
 }
 
   
-}
+// }
+
 
 
 
@@ -162,17 +184,6 @@ body{
 //     border: 1px solid black;
 // }
 
-.exit{
-    padding-left: 0.1rem;
-     color: #ff000087;
-     transition: all 0.25s ease-out;
-     &:hover{
-     font-weight: 500;
-     color: #F5234B;
-     
-   
-     }
- }
 
 @media (min-width: 760px ) {
 
